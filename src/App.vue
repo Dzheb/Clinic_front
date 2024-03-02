@@ -34,6 +34,7 @@
           :doctors="docs"
           :specialities="specs"
           :categories="cats"
+          :appointments="apps"
           :registerpassed="registered"
           @refreshDoctors="refreshDoctors"
           @refreshAppointments="refreshAppointments"
@@ -42,6 +43,7 @@
       <div class="pats">
         <PatientList
           :patients="pats"
+          :appointments="apps"
           :registerpassed="registered"
           @refreshPatients="refreshPatients"
           @refreshAppointments="refreshAppointments"

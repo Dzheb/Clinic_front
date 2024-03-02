@@ -90,6 +90,18 @@ export default {
   },
   methods: {
     deletePatient(id) {
+      //
+      fetch('http://localhost:9000/appointment/patient/' + id, {
+        method: 'DELETE',
+      })
+        .then((response) => response.ok)
+        .then((data) => {
+          if (data)
+            fetch('http://localhost:9000/appointment')
+              .then((response) => response.json())
+              .then((appdata) => this.$emit('refreshAppointments', appdata));
+        });
+      //
       fetch('http://localhost:9000/patient/' + id, {
         method: 'DELETE',
       })
@@ -192,25 +204,25 @@ export default {
   box-shadow: 0px 10px 15px 0px rgba(25, 45, 120, 0.2);
 }
 .table_patient {
-        overflow-y:scroll; /* make the table scrollable if height is more than 200 px  */
-        height: 200px; /* gives an initial height of 200px to the table */
-      }
-       thead th {
-        position: sticky; /* make the table heads sticky */
-        top: 0px; /* table head will be placed from the top of the table and sticks to it */
-      }
-      table {
-        border-collapse: collapse; /* make the table borders collapse to each other */
-        width: 100%;
-      }
-      th,
-      td {
-        padding: 8px 16px;
-        border: 1px solid #ccc;
-      }
-      th {
-        background: #eee;
-      }
+  overflow-y: scroll; /* make the table scrollable if height is more than 200 px  */
+  height: 200px; /* gives an initial height of 200px to the table */
+}
+thead th {
+  position: sticky; /* make the table heads sticky */
+  top: 0px; /* table head will be placed from the top of the table and sticks to it */
+}
+table {
+  border-collapse: collapse; /* make the table borders collapse to each other */
+  width: 100%;
+}
+th,
+td {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+}
+th {
+  background: #eee;
+}
 /* .content {
   display: flex;
 } */

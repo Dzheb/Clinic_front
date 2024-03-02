@@ -139,6 +139,18 @@ export default {
     //   this.closeModal();
     // },
     deleteDoctor(id) {
+         // 
+         fetch('http://localhost:9000/appointment/doctor/' + id, {
+        method: 'DELETE',
+      })
+        .then((response) => response.ok)
+        .then((data) => {
+          if (data)
+            fetch('http://localhost:9000/appointment')
+              .then((response) => response.json())
+              .then((appdata) => this.$emit('refreshAppointments', appdata));
+        });
+        // 
       fetch('http://localhost:9000/doctor/' + id, {
         method: 'DELETE',
       })
