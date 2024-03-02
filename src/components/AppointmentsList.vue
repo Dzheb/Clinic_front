@@ -1,36 +1,40 @@
 <template>
   <div class="main">
     <div class="employee__block">
-      <h2>Список врачей</h2>
+      <h2>Список записей на приём</h2>
 
       <table>
         <tr>
-          <th class="cell">Ф.И.О.</th>
-          <th class="cell">Специализация</th>
-          <th class="cell">Категория</th>
-          <th class="cell">Дата рождения</th>
+          <th class="cell">Врач</th>
+          <th class="cell">Пациент</th>
+          <th class="cell">Дата</th>
+          <th class="cell">Время</th>
           <th class="cell">Операции</th>
         </tr>
-        <tr class="content" v-for="doctor in doctors" :key="doctor.id">
+        <tr
+          class="content"
+          v-for="appointment in appointments"
+          :key="appointment.id"
+        >
           <!-- <td class="employee"> -->
           <td class="cell">
-            {{ doctor.fio }}
+            {{ appointment.doctorName }}
           </td>
           <td class="cell">
-            {{ doctor.speciality }}
-          </td>
-          <td class="cell_dep">
-            {{ doctor.category }}
+            {{ appointment.patientName }}
           </td>
           <td class="cell">
-            {{ doctor.birth }}
+            {{ appointment.appointment_date }}
+          </td>
+          <td class="cell">
+            {{ appointment.appointment_time }}
           </td>
           <td>
             <!-- <div class="update"> -->
             <button
               class="button"
               type="button"
-              @click="updateDoctor(doctor.id)"
+              @click="updateAppointment(appointment.id)"
             >
               Обновить
             </button>
@@ -39,57 +43,60 @@
             <button
               class="button"
               type="button"
-              @click="deleteDoctor(doctor.id)"
+              @click="deleteAppointment(appointment.id)"
             >
               Удалить
             </button>
-            <!-- </div> -->
           </td>
-          <!-- </td> -->
         </tr>
       </table>
       <div>
-        <button class="button_submit" type="submit" @click="addDoctor()">
+        <button class="button_submit" type="submit" @click="addAppointment()">
           Добавить
         </button>
       </div>
     </div>
-    <div class="update_form" id="update" @click.self="closePopup">
-      <form class="update_form_content">
+    <div class="update_form_app" id="update_app" @click.self="closePopup">
+      <form class="update_form_content_app">
         <h2>{{ form_header }}</h2>
-        <div>Ф.И.О.: <input type="text" required v-model="doc.fio" /></div>
-        <div>
-          <label for="speciality">Специализация</label>
+          <div>
+          <label for="doctorName">Врач</label>
           <select
-            id="speciality"
-            name="speciality"
-            v-model="doc.specialityId"
+            required
+            id="doctorName"
+            name="doctorName"
+            v-model="app.doctorId"
           >
             <option
-              v-for="(spec, index) in specialities"
+              v-for="(doc, index) in doctors"
               :key="index"
-              :value="spec.id"
+              :value="doc.id"
             >
-              {{ spec.speciality }}
+              {{ doc.fio }}
             </option>
           </select>
         </div>
         <div>
-          <label for="category">Категория</label>
-          <select id="category" name="category" v-model="doc.categoryId">
+          <label for="patientName">Пациент</label>
+          <select id="patientName" name="patientName" v-model="app.patientId">
             <option
-              v-for="(cat, index) in categories"
+              v-for="(pat, index) in patients"
               v-bind:key="index"
-              :value="cat.id"
+              :value="pat.id"
             >
-              {{ cat.category }}
+              {{ pat.fio }}
             </option>
           </select>
         </div>
-        <div>Дата рождения: <input type="date" v-model="doc.birth" /></div>
+        <div>
+          Дата приёма: <input type="date" v-model="app.appointment_date" />
+        </div>
+        <div>
+          Время приёма: <input type="time" v-model="app.appointment_time" />
+        </div>
 
         <div class="button_submit">
-          <button type="submit" @click="sendDoctor()">Отправить</button>
+          <button type="submit" @click="sendAppointment()">Отправить</button>
         </div>
       </form>
     </div>
@@ -98,13 +105,13 @@
 
 <script>
 export default {
-  name: 'DoctorList',
+  name: 'AppointmentsList',
   props: {
-    registerpassed: {
-      type: Boolean,
-      // default() {
-      //   return false;
-      // },
+    appointments: {
+      type: Array,
+      default() {
+        return [];
+      },
     },
     doctors: {
       type: Array,
@@ -112,13 +119,7 @@ export default {
         return [];
       },
     },
-    categories: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
-    specialities: {
+    patients: {
       type: Array,
       default() {
         return [];
@@ -128,7 +129,7 @@ export default {
   computed: {},
   data() {
     return {
-      doc: [],
+      app: [],
       form_header: '',
       add: true,
     };
@@ -138,43 +139,43 @@ export default {
     //   onClickOutside (event, el) {
     //   this.closeModal();
     // },
-    deleteDoctor(id) {
-      fetch('http://localhost:9000/doctor/' + id, {
+    deleteAppointment(id) {
+      fetch('http://localhost:9000/appointment/' + id, {
         method: 'DELETE',
       })
         .then((response) => response.ok)
         .then((data) => {
           if (data)
-            fetch('http://localhost:9000/doctor')
+            fetch('http://localhost:9000/appointment')
               .then((response) => response.json())
-              .then((docdata) => this.$emit('refreshDoctors', docdata));
+              .then((appdata) => this.$emit('refreshAppointments', appdata));
         });
     },
-    updateDoctor(id) {
+    updateAppointment(id) {
       this.add = false;
       this.form_header = 'Обновить информацию';
-      const updateForm = document.querySelector('.update_form');
+      const updateForm = document.querySelector('.update_form_app');
       updateForm.classList.toggle('show');
-      fetch('http://localhost:9000/doctor/' + id)
+      fetch('http://localhost:9000/appointment/' + id)
         .then((response) => response.json())
-        .then((data) => (this.doc = data));
+        .then((data) => (this.app = data));
     },
-    addDoctor() {
+    addAppointment() {
       this.add = true;
-      this.doc.fio = '';
-      this.doc.speciality = '';
-      this.doc.specialityId = '';
-      this.doc.category = '';
-      this.doc.categoryId = '';
-      this.doc.birth = '';
-      const updateForm = document.querySelector('.update_form');
+      this.app.doctorName = '';
+      this.app.doctorId = '';
+      this.app.patientName = '';
+      this.app.patientId = ''; 
+      this.app.appointment_date = '';
+      this.app.appointment_time = '';
+      const updateForm = document.querySelector('.update_form_app');
       updateForm.classList.toggle('show');
-      this.form_header = 'Форма ввода врача';
+      this.form_header = 'Форма ввода приёма';
     },
-    sendDoctor() {
+    sendAppointment() {
       var requestOptions;
-      this.form_header = 'Обновление данных врача';
-      const json_object = Object.assign({}, this.doc);
+      this.form_header = 'Обновление данных о приёме';
+      const json_object = Object.assign({}, this.app);
       alert(JSON.stringify(json_object));
       if (this.add) {
         requestOptions = {
@@ -182,13 +183,13 @@ export default {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(json_object),
         };
-        fetch('http://localhost:9000/doctor', requestOptions)
+        fetch('http://localhost:9000/appointment', requestOptions)
           .then((response) => response.json())
           .then((data) => {
-            alert('Информация о враче # ' + data + ' отправлена');
-            fetch('http://http://localhost:9000/doctor')
+            alert('Информация о приёме # ' + data + ' отправлена');
+            fetch('http://http://localhost:9000/appointment')
               .then((response) => response.json())
-              .then((docdata) => this.$emit('refreshDoctors', docdata));
+              .then((appdata) => this.$emit('refreshAppointments', appdata));
           });
       } else {
         const updateId = json_object.id;
@@ -198,24 +199,24 @@ export default {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(json_object),
         };
-        fetch('http://localhost:9000/doctor/' + updateId, requestOptions)
+        fetch('http://localhost:9000/appointment/' + updateId, requestOptions)
           .then((response) => response.json())
           .then((data) => {
-            alert('Информация о враче # ' + data + ' отправлена');
-            fetch('http://http://localhost:9000/doctor')
+            alert('Информация о приёме # ' + data + ' отправлена');
+            fetch('http://http://localhost:9000/appointment')
               .then((response) => response.json())
-              .then((docdata) => this.$emit('refreshDoctors', docdata));
+              .then((appdata) => this.$emit('refreshAppointments', appdata));
           });
       }
 
-      const updateForm = document.querySelector('.update_form');
-      updateForm.classList.toggle('show');
+      const updateFormApp = document.querySelector('.update_form_app');
+      updateFormApp.classList.toggle('show');
     },
     closePopup() {
       window.onclick = function (event) {
-        const updateForm = document.querySelector('.update_form');
-        if (event.target == updateForm) {
-          updateForm.classList.toggle('show');
+        const updateFormApp = document.querySelector('.update_form_app');
+        if (event.target == updateFormApp) {
+          updateFormApp.classList.toggle('show');
         }
       };
     },
@@ -250,14 +251,16 @@ export default {
   display: flex;
   gap: 16px;
 }
-.update_form {
+.update_form_app {
   visibility: hidden;
   /* margin-left: 32px; */
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-   background-color: rgb(186, 196, 211);
+  /* box-shadow: 0px 10px 15px 0px rgba(25, 45, 120, 0.2); */
+  background-color: rgb(186, 196, 211);
+  /* border-radius: 16px;  */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
@@ -269,7 +272,7 @@ export default {
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4);
 }
-.update_form_content {
+.update_form_content_app {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -16,7 +16,19 @@
       <!-- <UsersList>
       <UserComp/>
     </UsersList> -->
-      <!-- <ProductDetails :products="prods"/> -->
+      <!-- <ProductDetails :products="prods"/> 
+      -->
+
+      <div class="apps">
+        <AppointmentsList
+          :appointments="apps"
+          :doctors="docs"
+          :patients="pats"
+          @refreshAppointments="refreshAppointments"
+        />
+      </div>
+
+    <div class="main_frame_top">
       <div class="docs">
         <DoctorList
           :doctors="docs"
@@ -24,6 +36,7 @@
           :categories="cats"
           :registerpassed="registered"
           @refreshDoctors="refreshDoctors"
+          @refreshAppointments="refreshAppointments"
         />
       </div>
       <div class="pats">
@@ -31,9 +44,11 @@
           :patients="pats"
           :registerpassed="registered"
           @refreshPatients="refreshPatients"
+          @refreshAppointments="refreshAppointments"
         />
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -49,13 +64,14 @@
 // import ProductDetails from './components/ProductDetails.vue'
 import DoctorList from './components/DoctorList.vue';
 import PatientList from './components/PatientList.vue';
+import AppointmentsList from './components/AppointmentsList.vue';
 
 export default {
   name: 'App',
   components: {
     // HelloWorld,
     // CalcComponent,
-    // CalcFunc
+    // CalcFunc,
     // AppAuhentication,
     // UserComp,
     // UsersList
@@ -63,6 +79,7 @@ export default {
     // ProductDetails
     DoctorList,
     PatientList,
+    AppointmentsList,
   },
   data() {
     return {
@@ -71,6 +88,7 @@ export default {
       pats: [],
       cats: [],
       specs: [],
+      apps: [],
       registered: true, // без идентификации
     };
   },
@@ -95,11 +113,19 @@ export default {
         .then((response) => response.json())
         .then((data) => (this.cats = data));
     },
+    fetchApps() {
+      fetch('http://localhost:9000/appointment')
+        .then((response) => response.json())
+        .then((data) => (this.apps = data));
+    },
     refreshDoctors(docdata) {
       this.docs = docdata;
     },
     refreshPatients(patdata) {
       this.pats = patdata;
+    },
+    refreshAppointments(appdata) {
+      this.apps = appdata;
     },
 
     passAuth(ok) {
@@ -115,6 +141,7 @@ export default {
     this.pats = this.fetchPats();
     this.specs = this.fetchSpecs();
     this.cats = this.fetchCats();
+    this.apps = this.fetchApps();
   },
 };
 </script>
@@ -122,14 +149,21 @@ export default {
 <style>
 .main_frame {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+.main_frame_top {
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: baseline;
-  gap: 16px;
+  gap: 10vh;
 }
 .app_frame {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
 }
 </style>
