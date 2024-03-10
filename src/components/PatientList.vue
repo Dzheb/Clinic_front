@@ -10,7 +10,11 @@
           <th class="cell">Отчество</th>
           <th class="cell">Операции</th>
         </tr>
-        <tr class="content" v-for="patient in patients" :key="patient.id">
+        <tr
+          class="content"
+          v-for="(patient, index) in patients"
+          :key="patient.id"
+        >
           <td class="cell">
             {{ patient.family }}
           </td>
@@ -21,11 +25,7 @@
             {{ patient.middle_name }}
           </td>
           <td>
-            <button
-              class="button"
-              type="button"
-              @click="updatePatient(patient.id)"
-            >
+            <button class="button" type="button" @click="updatePatient(index)">
               Обновить
             </button>
 
@@ -118,9 +118,7 @@ export default {
       this.form_header = 'Обновить информацию';
       const updateForm = document.querySelector('.update_form_patient');
       updateForm.classList.toggle('show');
-      fetch('http://localhost:9000/patient/' + id)
-        .then((response) => response.json())
-        .then((data) => (this.pat = data));
+      this.pat = this.patients[id];
     },
     addPatient() {
       this.add = true;

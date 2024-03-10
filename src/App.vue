@@ -2,24 +2,7 @@
   <div class="app_frame" id="app">
     <div><h1 class="main_header">Медицинский центр "Айболит"</h1></div>
     <div class="main_frame">
-      <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-      <!-- <HelloWorld msg="Calculator"/> -->
-      <!-- <CalcComponent/> -->
-      <!-- <CalcFunc/> -->
-      <!-- <h2>Ещё один калькулятор</h2>
-    <CalcComponent/> -->
-      <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-      <!-- <AppAuhentication login="hello" pass="123456" @passAuth="passAuth" /> -->
-      <!-- <div class="calc">
-     <LoanCalc/>
-   </div> -->
-      <!-- <UsersList>
-      <UserComp/>
-    </UsersList> -->
-      <!-- <ProductDetails :products="prods"/> 
-      -->
-
-      <div class="apps">
+         <div class="apps">
         <AppointmentsList
           :appointments="apps"
           :doctors="docs"
@@ -55,15 +38,6 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-// import CalcComponent from './components/CalcComponent.vue'
-// import CalcFunc from './components/CalcFunc.vue'
-
-// import AppAuhentication from './components/Auhentication.vue'
-// import UserComp from './components/UserComp.vue'
-// import UsersList from './components/UsersList.vue'
-// import LoanCalc from './components/LoanCalc.vue';
-// import ProductDetails from './components/ProductDetails.vue'
 import DoctorList from './components/DoctorList.vue';
 import PatientList from './components/PatientList.vue';
 import AppointmentsList from './components/AppointmentsList.vue';
@@ -71,21 +45,12 @@ import AppointmentsList from './components/AppointmentsList.vue';
 export default {
   name: 'App',
   components: {
-    // HelloWorld,
-    // CalcComponent,
-    // CalcFunc,
-    // AppAuhentication,
-    // UserComp,
-    // UsersList
-    //  LoanCalc,
-    // ProductDetails
     DoctorList,
     PatientList,
     AppointmentsList,
   },
   data() {
     return {
-      //  prods:[]
       docs: [],
       pats: [],
       cats: [],
@@ -138,7 +103,6 @@ export default {
   },
   computed: {},
   created() {
-    // this.prods =  this.fetchData();
     this.docs = this.fetchDocs();
     this.pats = this.fetchPats();
     this.specs = this.fetchSpecs();

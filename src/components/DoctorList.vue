@@ -11,8 +11,7 @@
           <th class="cell">Дата рождения</th>
           <th class="cell">Операции</th>
         </tr>
-        <tr class="content" v-for="doctor in doctors" :key="doctor.id">
-          <!-- <td class="employee"> -->
+        <tr class="content" v-for="(doctor, index) in doctors" :key="doctor.id">
           <td class="cell">
             {{ doctor.fio }}
           </td>
@@ -26,16 +25,9 @@
             {{ doctor.birth }}
           </td>
           <td>
-            <!-- <div class="update"> -->
-            <button
-              class="button"
-              type="button"
-              @click="updateDoctor(doctor.id)"
-            >
+            <button class="button" type="button" @click="updateDoctor(index)">
               Обновить
             </button>
-            <!-- </div> -->
-            <!-- <div class="delete"> -->
             <button
               class="button"
               type="button"
@@ -43,9 +35,7 @@
             >
               Удалить
             </button>
-            <!-- </div> -->
           </td>
-          <!-- </td> -->
         </tr>
       </table>
       <div>
@@ -60,11 +50,7 @@
         <div>Ф.И.О.: <input type="text" required v-model="doc.fio" /></div>
         <div>
           <label for="speciality">Специализация</label>
-          <select
-            id="speciality"
-            name="speciality"
-            v-model="doc.specialityId"
-          >
+          <select id="speciality" name="speciality" v-model="doc.specialityId">
             <option
               v-for="(spec, index) in specialities"
               :key="index"
@@ -135,12 +121,9 @@ export default {
   },
 
   methods: {
-    //   onClickOutside (event, el) {
-    //   this.closeModal();
-    // },
     deleteDoctor(id) {
-         // 
-         fetch('http://localhost:9000/appointment/doctor/' + id, {
+      //
+      fetch('http://localhost:9000/appointment/doctor/' + id, {
         method: 'DELETE',
       })
         .then((response) => response.ok)
@@ -150,7 +133,7 @@ export default {
               .then((response) => response.json())
               .then((appdata) => this.$emit('refreshAppointments', appdata));
         });
-        // 
+      //
       fetch('http://localhost:9000/doctor/' + id, {
         method: 'DELETE',
       })
@@ -167,9 +150,7 @@ export default {
       this.form_header = 'Обновить информацию';
       const updateForm = document.querySelector('.update_form');
       updateForm.classList.toggle('show');
-      fetch('http://localhost:9000/doctor/' + id)
-        .then((response) => response.json())
-        .then((data) => (this.doc = data));
+      this.doc = this.doctors[id];
     },
     addDoctor() {
       this.add = true;
@@ -255,30 +236,27 @@ export default {
   border-radius: 16px;
   box-shadow: 0px 10px 15px 0px rgba(25, 45, 120, 0.2);
 }
-/* .content {
-  display: flex;
-} */
+
 .employee {
   display: flex;
   gap: 16px;
 }
 .update_form {
   visibility: hidden;
-  /* margin-left: 32px; */
-  display: flex;
+   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-   background-color: rgb(186, 196, 211);
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  background-color: rgb(186, 196, 211);
+  position: fixed; 
+  z-index: 1; 
+  padding-top: 100px; 
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0, 0, 0); 
   background-color: rgba(0, 0, 0, 0.4);
 }
 .update_form_content {
