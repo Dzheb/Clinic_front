@@ -137,6 +137,12 @@ export default {
         return [];
       },
     },
+    url: {
+      type: String,
+      default() {
+        return '';
+      },
+    },
   },
   computed: {},
   data() {
@@ -150,18 +156,18 @@ export default {
   methods: {
     deleteDoctor(id) {
       //
-      fetch('http://localhost:9000/appointment/doctor/' + id, {
+      fetch(this.url+'appointment/doctor/' + id, {
         method: 'DELETE',
       })
         .then((response) => response.ok)
         .then((data) => {
           if (data)
-            fetch('http://localhost:9000/appointment')
+            fetch(this.url+'appointment')
               .then((response) => response.json())
               .then((appdata) => this.$emit('refreshAppointments', appdata));
         });
       //
-      fetch('http://localhost:9000/doctor/' + id, {
+      fetch(this.url+'doctor/' + id, {
         method: 'DELETE',
       })
         .then((response) => response.ok)
@@ -202,13 +208,13 @@ export default {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(json_object),
         };
-        fetch('http://localhost:9000/doctor', requestOptions)
+        fetch(this.url+'doctor', requestOptions)
           .then((response) => response.json())
           .then((data) => {
             alert('Информация о враче # ' + data + ' отправлена');
-            fetch('http://http://localhost:9000/doctor')
-              .then((response) => response.json())
-              .then((docdata) => this.$emit('refreshDoctors', docdata));
+            // fetch('http://http://localhost:9000/doctor')
+            //   .then((response) => response.json())
+            //   .then((docdata) => this.$emit('refreshDoctors', docdata));
           });
       } else {
         const updateId = json_object.id;
@@ -218,13 +224,13 @@ export default {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(json_object),
         };
-        fetch('http://localhost:9000/doctor/' + updateId, requestOptions)
+        fetch(this.url+'doctor/' + updateId, requestOptions)
           .then((response) => response.json())
           .then((data) => {
             alert('Информация о враче # ' + data + ' отправлена');
-            fetch('http://http://localhost:9000/doctor')
-              .then((response) => response.json())
-              .then((docdata) => this.$emit('refreshDoctors', docdata));
+            // fetch('http://http://localhost:9000/doctor')
+            //   .then((response) => response.json())
+            //   .then((docdata) => this.$emit('refreshDoctors', docdata));
           });
       }
 

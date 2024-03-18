@@ -6,26 +6,28 @@
     <div class="main_frame">
       <div class="main_frame_top">
         <div class="cats">
-        <CategoryList
-          :categorys="cats"
-          @refreshCategorys="refreshCategorys"
-        />
-      </div>
-      <div class="specs">
-        <SpecialityList
-          :specialitys="specs"
-          @refreshSpecialitys="refreshSpecialitys"
-        />
-      </div>
-      <div class="apps">
-        <AppointmentsList
-          :appointments="apps"
-          :doctors="docs"
-          :patients="pats"
-          @refreshAppointments="refreshAppointments"
-        />
-      </div>
-    
+          <CategoryList
+            :categorys="cats"
+            :url="serverURL"
+            @refreshCategorys="refreshCategorys"
+          />
+        </div>
+        <div class="specs">
+          <SpecialityList
+            :specialitys="specs"
+            :url="serverURL"
+            @refreshSpecialitys="refreshSpecialitys"
+          />
+        </div>
+        <div class="apps">
+          <AppointmentsList
+            :appointments="apps"
+            :doctors="docs"
+            :patients="pats"
+            :url="serverURL"
+            @refreshAppointments="refreshAppointments"
+          />
+        </div>
       </div>
 
       <div class="main_frame_bottom">
@@ -35,6 +37,7 @@
             :specialities="specs"
             :categorys="cats"
             :appointments="apps"
+            :url="serverURL"
             :registerpassed="registered"
             @refreshDoctors="refreshDoctors"
             @refreshAppointments="refreshAppointments"
@@ -44,6 +47,7 @@
           <PatientList
             :patients="pats"
             :appointments="apps"
+            :url="serverURL"
             :registerpassed="registered"
             @refreshPatients="refreshPatients"
             @refreshAppointments="refreshAppointments"
@@ -85,6 +89,7 @@ export default {
       specs: [],
       apps: [],
       registered: true, // без идентификации
+      serverURL: 'http://localhost:9000/',
     };
   },
   methods: {
