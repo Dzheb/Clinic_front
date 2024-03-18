@@ -1,33 +1,27 @@
-# vue-start
+# Развёртывание (деплой)
 
-## Project setup
+## Способ 1
+### Компиляция и перезагрузка в run-time для разработки
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+npm run serve -- --port 3000
 ```
 
-### Compiles and minifies for production
+### Компилировать для production
 ```
 npm run build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-The easiest way to preview  production build locally is using a Node.js static file server, for example serve:
-
+# Для запуска сборки используется статический Node.js файл сервер, для его установки:
 npm install -g serve
-# -s flag means serve it in Single-Page Application mode
-# which deals with the routing problem below
-serve -s dist
-npm run serve -- --port 3000
+# -s означает Single-Page Application mode
 
+# для запуска сборки
+serve -s dist
+
+## Способ 2
+# С помощью Docker
+# Необходимые файлы Dockerfile и docker-compose.yml находятся в папке проекта
+# поэтому достаточно команд -
+docker build -t clinic-front:dev .
+# и
+docker compose up
+# в терминале
