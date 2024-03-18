@@ -10,18 +10,18 @@ npm run serve -- --port 3000
 ```
 npm run build
 ```
-# Для запуска сборки используется статический Node.js файл сервер, для его установки:
+### Для запуска сборки используется статический Node.js файл сервер, для его установки:
 npm install -g serve
-# -s означает Single-Page Application mode
+### -s означает Single-Page Application mode
 
-# для запуска сборки
+### для запуска сборки
 serve -s dist
 
 ## Способ 2
-# С помощью Docker
-# Необходимые файлы Dockerfile и docker-compose.yml находятся в папке проекта
-# поэтому достаточно команд -
+### С помощью Docker
+### Необходимые файлы Dockerfile и docker-compose.yml находятся в папке проекта
+### поэтому достаточно команд -
 docker build -t clinic-front:dev .
-# и
+### и
 docker compose up
-# в терминале
+### в терминале
