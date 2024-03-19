@@ -212,9 +212,6 @@ export default {
           .then((response) => response.json())
           .then((data) => {
             alert('Информация о враче # ' + data + ' отправлена');
-            // fetch('http://http://localhost:9000/doctor')
-            //   .then((response) => response.json())
-            //   .then((docdata) => this.$emit('refreshDoctors', docdata));
           });
       } else {
         const updateId = json_object.id;
@@ -228,9 +225,6 @@ export default {
           .then((response) => response.json())
           .then((data) => {
             alert('Информация о враче # ' + data + ' отправлена');
-            // fetch('http://http://localhost:9000/doctor')
-            //   .then((response) => response.json())
-            //   .then((docdata) => this.$emit('refreshDoctors', docdata));
           });
       }
 
@@ -338,6 +332,4 @@ th {
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s;
 }
-
-
 </style>

@@ -208,9 +208,6 @@ export default {
           .then((response) => response.json())
           .then((data) => {
             alert('Информация о специализации # ' + data + ' отправлена');
-            // fetch(this.url+'speciality')
-            //   .then((response) => response.json())
-            //   .then((specdata) => this.$emit('refreshspecialitys', specdata));
           });
       }
 
