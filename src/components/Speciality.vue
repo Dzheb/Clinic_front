@@ -115,12 +115,6 @@
 export default {
   name: 'SpecialityList',
   props: {
-    registerpassed: {
-      type: Boolean,
-      // default() {
-      //   return false;
-      // },
-    },
     specialitys: {
       type: Array,
       default() {

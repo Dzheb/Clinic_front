@@ -113,12 +113,6 @@
 export default {
   name: 'DoctorList',
   props: {
-    registerpassed: {
-      type: Boolean,
-      // default() {
-      //   return false;
-      // },
-    },
     doctors: {
       type: Array,
       default() {

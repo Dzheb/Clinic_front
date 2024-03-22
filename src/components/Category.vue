@@ -111,12 +111,6 @@
 export default {
   name: 'CategoryList',
   props: {
-    registerpassed: {
-      type: Boolean,
-      // default() {
-      //   return false;
-      // },
-    },
     categorys: {
       type: Array,
       default() {

@@ -38,7 +38,6 @@
             :categorys="cats"
             :appointments="apps"
             :url="serverURL"
-            :registerpassed="registered"
             @refreshDoctors="refreshDoctors"
             @refreshAppointments="refreshAppointments"
           />
@@ -48,7 +47,6 @@
             :patients="pats"
             :appointments="apps"
             :url="serverURL"
-            :registerpassed="registered"
             @refreshPatients="refreshPatients"
             @refreshAppointments="refreshAppointments"
           />
@@ -88,33 +86,32 @@ export default {
       cats: [],
       specs: [],
       apps: [],
-      registered: true, // без идентификации
       serverURL: 'http://localhost:9000/',
     };
   },
   methods: {
     fetchDocs() {
-      fetch('http://localhost:9000/doctor')
+      fetch(this.serverURL+'doctor')
         .then((response) => response.json())
         .then((data) => (this.docs = data));
     },
     fetchPats() {
-      fetch('http://localhost:9000/patient')
+      fetch(this.serverURL+'patient')
         .then((response) => response.json())
         .then((data) => (this.pats = data));
     },
     fetchSpecs() {
-      fetch('http://localhost:9000/speciality')
+      fetch(this.serverURL+'speciality')
         .then((response) => response.json())
         .then((data) => (this.specs = data));
     },
     fetchCats() {
-      fetch('http://localhost:9000/category')
+      fetch(this.serverURL+'category')
         .then((response) => response.json())
         .then((data) => (this.cats = data));
     },
     fetchApps() {
-      fetch('http://localhost:9000/appointment')
+      fetch(this.serverURL+'appointment')
         .then((response) => response.json())
         .then((data) => (this.apps = data));
     },
@@ -134,11 +131,6 @@ export default {
       this.apps = appdata;
     },
 
-    passAuth(ok) {
-      if (ok) {
-        this.registered = true;
-      }
-    },
   },
   computed: {},
   created() {
