@@ -167,7 +167,7 @@ export default {
         .then((response) => response.ok)
         .then((data) => {
           if (data)
-            fetch('http://localhost:9000/doctor')
+            fetch(this.url+'doctor')
               .then((response) => response.json())
               .then((docdata) => this.$emit('refreshDoctors', docdata));
         });
